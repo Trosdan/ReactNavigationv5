@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 function Home() {
   const navigation = useNavigation();
 
   function handlerNotice() {
-    navigation.navigate('Notice', {title: 'Ola', content: 'Mundo'});
+    navigation.navigate('Notice', { title: 'Ola', content: 'Mundo' });
   }
 
   return (

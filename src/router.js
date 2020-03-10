@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+import Splash from './pages/Splash';
 
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -19,6 +16,10 @@ import Notice from './pages/Notice';
 import Profile from './pages/Profile';
 
 import Settings from './pages/Settings';
+
+import CustomDrawer from './components/CustomDrawer';
+
+import { AuthProvider } from './index';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -50,16 +51,10 @@ const HomeTab = () => {
   );
 };
 
-const CustomDrawer = props => (
-  <DrawerContentScrollView {...props}>
-    <DrawerItemList {...props} />
-    <DrawerItem label="Logout" onPress={() => {}} />
-  </DrawerContentScrollView>
-);
-
-const AppContainer = () => (
+const AppContainer = propsContainer => (
   <NavigationContainer>
-    <Drawer.Navigator drawerContent={CustomDrawer}>
+    <Drawer.Navigator
+      drawerContent={props => CustomDrawer({ ...props, ...propsContainer })}>
       <Drawer.Screen name="Home" component={HomeTab} />
       <Drawer.Screen name="Settings" component={SettingsStack} />
     </Drawer.Navigator>
@@ -75,8 +70,22 @@ const SignContainer = () => (
   </NavigationContainer>
 );
 
-const Router = ({signed}) => {
-  return signed ? AppContainer() : SignContainer();
-};
+const LoadingContainer = () => (
+  <NavigationContainer>
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name="Loading" component={Splash} />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
+
+function Router({ signed, loading, ...restProps }) {
+  const AuthConsumer = useContext(AuthProvider);
+
+  return loading
+    ? LoadingContainer()
+    : signed
+    ? AppContainer({ ...restProps, AuthConsumer })
+    : SignContainer();
+}
 
 export default Router;
