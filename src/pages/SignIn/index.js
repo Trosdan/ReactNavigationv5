@@ -11,9 +11,7 @@ function SignIn(props) {
 
   async function handlerSingIn() {
     const token = 'N3G5H14N6G4HNG3';
-    await AsyncStorage.setItem('@userToken', token, asd => {
-      console.log({ callBack: asd });
-    });
+    await AsyncStorage.setItem('@userToken', token);
     AuthConsumer.setUserToken(token);
     AuthConsumer.setSigned(true);
   }

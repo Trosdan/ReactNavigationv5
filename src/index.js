@@ -2,6 +2,8 @@ import 'react-native-gesture-handler';
 import React, { useEffect, useState, createContext } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { NavigationContainer } from '@react-navigation/native';
+
 import Router from './router';
 
 export const AuthProvider = createContext();
@@ -16,7 +18,6 @@ function App() {
   useEffect(() => {
     async function getToken() {
       const token = await AsyncStorage.getItem('@userToken');
-      console.log(token);
       if (token) {
         setUserToken(token);
         setSigned(true);
@@ -42,9 +43,11 @@ function App() {
   }, [signed]);
 
   return (
-    <AuthProvider.Provider value={AuthContext}>
-      <Router signed={signed} loading={loading} />
-    </AuthProvider.Provider>
+    <NavigationContainer>
+      <AuthProvider.Provider value={AuthContext}>
+        <Router signed={signed} loading={loading} />
+      </AuthProvider.Provider>
+    </NavigationContainer>
   );
 }
 

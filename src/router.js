@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -52,30 +51,24 @@ const HomeTab = () => {
 };
 
 const AppContainer = propsContainer => (
-  <NavigationContainer>
-    <Drawer.Navigator
-      drawerContent={props => CustomDrawer({ ...props, ...propsContainer })}>
-      <Drawer.Screen name="Home" component={HomeTab} />
-      <Drawer.Screen name="Settings" component={SettingsStack} />
-    </Drawer.Navigator>
-  </NavigationContainer>
+  <Drawer.Navigator
+    drawerContent={props => CustomDrawer({ ...props, ...propsContainer })}>
+    <Drawer.Screen name="Home" component={HomeTab} />
+    <Drawer.Screen name="Settings" component={SettingsStack} />
+  </Drawer.Navigator>
 );
 
 const SignContainer = () => (
-  <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="SignIn" component={SignIn} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-    </Stack.Navigator>
-  </NavigationContainer>
+  <Stack.Navigator screenOptions={{ headerTransparent: true, headerTitle: '' }}>
+    <Stack.Screen name="SignIn" component={SignIn} />
+    <Stack.Screen name="SignUp" component={SignUp} />
+  </Stack.Navigator>
 );
 
 const LoadingContainer = () => (
-  <NavigationContainer>
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name="Loading" component={Splash} />
-    </Stack.Navigator>
-  </NavigationContainer>
+  <Stack.Navigator headerMode="none">
+    <Stack.Screen name="Loading" component={Splash} />
+  </Stack.Navigator>
 );
 
 function Router({ signed, loading, ...restProps }) {
